@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <!-- スマホ表示に必須の1行：画面幅をデバイスに合わせる -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神秘の託宣 - レスポンシブ版</title>
+    <style>
+        /* --- 基本設定（PC・スマホ共通） --- */
+        body {
+            background-color: #0d0d0d;
+            color: #e0c386;
+            font-family: "Hiragino Mincho ProN", "MS P明朝", serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 10px; /* 余白を狭くして画面を広く使う */
+            line-height: 1.6;
+        }
+
+        .oracle-container {
+            text-align: center;
+            width: 100%;
+            max-width: 600px; /* 最大幅を制限してPCでも綺麗に */
+        }
+
+        /* 1. 占い師の画像：楕円形レイアウト */
+        .teller-header {
+            width: 95%;      /* スマホでは画面いっぱいに近く */
+            max-width: 500px;
+            height: auto;
+            aspect-ratio: 3 / 2;
+            margin: 0 auto;
+            object-fit: cover;
+            clip-path: ellipse(50% 45% at 50% 50%);
+            display: block;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            letter-spacing: 3px;
+            margin: 15px 0;
+        }
+
+        /* 2. メッセージ：画面幅に合わせてフォントサイズを調整 */
+        .message-text {
+            font-size: 1.2rem;
+            color: #f4d03f;
+            padding: 0 15px;
+            margin: 15px 0;
+        }
+
+        /* 3. カードスロット：スマホでもはみ出さないサイズ */
+        .card-slot {
+            width: 80%;       /* 画面幅の80%にする */
+            max-width: 280px; /* 大きすぎない上限 */
+            aspect-ratio: 1 / 1.7; /* 縦長比率を維持 */
+            border: 1px solid #e0c386;
+            margin: 10px auto;
+            background-color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .tarot-card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .draw-btn {
+            background: linear-gradient(#8b1113, #4a0000);
+            color: #fff;
+            border: 1px solid #e0c386;
+            padding: 12px 0;  /* 上下のみ指定 */
+            width: 70%;      /* 横幅を広げて押しやすく */
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-radius: 30px;
+            margin: 15px 0;
+            font-family: inherit;
+        }
+
+        /* --- スマホ専用の微調整（画面幅480px以下の場合） --- */
+        @media (max-width: 480px) {
+            h1 { font-size: 1.3rem; }
+            .message-text { font-size: 1.1rem; }
+            .draw-btn { width: 85%; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="oracle-container">
+        <img src="teller.png" alt="占い師" class="teller-header">
+        
+        <h1>神秘の託宣</h1>
+
+        <p class="message-text" id="intro-text">
+            「22枚の運命の断片が、あなたの道を照らすでしょう…」
+        </p>
+
+        <div class="card-slot" id="card-display">
+            <p style="opacity: 0.4; font-size: 0.8rem;">Tap to Draw</p>
+        </div>
+
+        <button class="draw-btn" onclick="drawCard()">運命の糸を引く</button>
+
+        <div id="result-area">
+            <h3 id="card-name" style="font-size: 1.2rem;"></h3>
+            <p class="message-text" id="result-text"></p>
+        </div>
+    </div>
+
+    <script>
+        // 前回のJavaScriptロジックをそのまま使用
+        const tarotDeck = [
+            { name: "VI. 恋人たち (The Lovers)", image: "card_06.png", message: "重要な選択の時です。心の底から望む方を選んでください。" }
+            // 他のカードデータをここに追加
+        ];
+
+        function drawCard() {
+            if (tarotDeck.length === 0) return;
+            const randomIndex = Math.floor(Math.random() * tarotDeck.length);
+            const card = tarotDeck[randomIndex];
+            document.getElementById('card-display').innerHTML = `<img src="${card.image}" class="tarot-card-img" alt="${card.name}">`;
+            document.getElementById('card-name').innerText = card.name;
+            document.getElementById('result-text').innerText = "「" + card.message + "」";
+        }
+    </script>
+</body>
+</html>
